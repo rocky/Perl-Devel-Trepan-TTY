@@ -10,6 +10,7 @@ use warnings; use strict;
 use rlib '../../..';
 
 package Devel::Trepan::IO::TTYClient;
+
 use English qw ( -no_match_vars );
 use Devel::Trepan::IO::TCPPack;
 use Devel::Trepan::Util qw(hash_merge);
@@ -127,8 +128,8 @@ sub read_msg($)
 }
 
 # This method the debugger uses to write. In contrast to
-# writeline, no newline is added to the } to `str'. Also
-# msg doesn't have to be a string.
+# writeline, no newline is added to the end of `str'. Also
+# $msg doesn't have to be a string.
 # FIXME dry with TTYServer by making a common TTY routine
 sub write($$)
 {

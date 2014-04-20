@@ -1,0 +1,8 @@
+2014-04-20  Rocky Bernstein <rocky@cpan.org>
+
+	* MANIFEST, t/10test-io-tty.t: Move tty unit test from Devel::Trepan
+
+2014-04-20  Rocky Bernstein <rocky@cpan.org>
+
+	* TTY support for Devel::Trepan
+

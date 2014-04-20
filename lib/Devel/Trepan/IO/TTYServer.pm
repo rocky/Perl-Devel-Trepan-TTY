@@ -143,48 +143,48 @@ sub writeline($$)
 
 # Demo
 unless (caller) {
-  my $server = __PACKAGE__->new({open => 1, logger=>*STDOUT});
-  if (scalar @ARGV) {
-      require Devel::Trepan::IO::TTYClient;
-      my $pid = fork();
-      if (scalar @ARGV) {
-         my $pid = fork();
-         if ($pid) {
-             print "Server pid $$...\n";
-	     print "server before write\n";
-             $server->writeline("server to client");
-	     print "server before read\n";
-             my $msg = $server->read_msg();
-	     print "Server read from client message: $msg\n";
-	     print "server before second write\n";
-             $server->write("server to client nocr");
-	     print "Server $$ is done but waiting on client $pid\n";
-	     waitpid($pid, 0);
-	     $server->close();
-	     print "Server is leaving\n";
-         } else {
-             print "Client pid $$...\n";
-	     # Client's input goes to server's output and vice versa
-             my $client = Devel::Trepan::IO::TTYClient->new(
-		 {'open'=> 1,
-		  'input'  => $server->{output}->slave,
-		  'output' => $server->{input}->slave,
-		 });
-	     print "client before read\n";
-             my $msg = $client->read_msg();
-	     print "Client read from server message: $msg\n";
-             $client->writeline("client to server");
-	     print "client before second read\n";
-             $msg = $client->read_msg();
-	     print "Client read from server message: $msg\n";
-	     print "Client is leaving\n";
-	     $client->close();
-         }
-     } else {
-	 my $client = __PACKAGE__->new({'open' => 1});
-	 $client->close();
-     }
-  }
+    my $server = __PACKAGE__->new({open => 1, logger=>*STDOUT});
+    if (scalar @ARGV) {
+	require Devel::Trepan::IO::TTYClient;
+	my $pid = fork();
+	if (scalar @ARGV) {
+	    my $pid = fork();
+	    if ($pid) {
+		print "Server pid $$...\n";
+		print "server before write\n";
+		$server->writeline("server to client");
+		print "server before read\n";
+		my $msg = $server->read_msg();
+		print "Server read from client message: $msg\n";
+		print "server before second write\n";
+		$server->write("server to client nocr");
+		print "Server $$ is done but waiting on client $pid\n";
+		waitpid($pid, 0);
+		$server->close();
+		print "Server is leaving\n";
+	    } else {
+		print "Client pid $$...\n";
+		# Client's input goes to server's output and vice versa
+		my $client = Devel::Trepan::IO::TTYClient->new(
+		    {'open'=> 1,
+		     'input'  => $server->{output}->slave,
+		     'output' => $server->{input}->slave,
+		    });
+		print "client before read\n";
+		my $msg = $client->read_msg();
+		print "Client read from server message: $msg\n";
+		$client->writeline("client to server");
+		print "client before second read\n";
+		$msg = $client->read_msg();
+		print "Client read from server message: $msg\n";
+		print "Client is leaving\n";
+		$client->close();
+	    }
+	} else {
+	    my $client = __PACKAGE__->new({'open' => 1});
+	    $client->close();
+	}
+    }
 }
 
 1;
