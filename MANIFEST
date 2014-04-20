@@ -1,0 +1,15 @@
+Build.PL
+GNUmakefile
+lib/Devel/Trepan/CmdProcessor/Command/Set_Subcmd/TTY.pm
+lib/Devel/Trepan/IO/TTYClient.pm
+lib/Devel/Trepan/IO/TTYServer.pm
+t/00load.t
+t/00test-pod.t
+MANIFEST			This list of files
+ChangeLog
+Changes
+README
+README.pod
+Makefile.PL
+META.yml
+META.json
