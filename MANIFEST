@@ -5,6 +5,7 @@ lib/Devel/Trepan/IO/TTYClient.pm
 lib/Devel/Trepan/IO/TTYServer.pm
 t/00load.t
 t/00test-pod.t
+t/10test-tty.t
 MANIFEST			This list of files
 ChangeLog
 Changes
