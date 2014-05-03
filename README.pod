@@ -2,12 +2,15 @@
 
 =head1 NAME
 
-Master/slave TTY support plugin for L<Devel::Trepan>
+Pseudo tty support plugin for L<Devel::Trepan>
 
 =head1 SUMMARY
 
 This adds a "set tty" command and server/client options tty to the
 L<Devel::Trepan> debugger, I<trepan.pl>.
+
+It also enables options C<--client tty> and C<--server tty> on the
+C<trepan.pl> command.
 
 =head1 AUTHORS
 
