@@ -12,17 +12,18 @@ our @ISA = qw(Devel::Trepan::CmdProcessor::Command::Subcmd);
 unless (@ISA) {
     eval <<"EOE";
 use constant MIN_ARGS   => 0;
-use constant MAX_ARGS   => 0;
+use constant MAX_ARGS   => 1;
 EOE
 }
 
 use IO::Pty;
 
 our $HELP   = <<"HELP";
-Set tty
 
-The input and output tty.
-those events.
+C<set tty> I<input-tty> I<output-tty>
+
+Set debugger input and output tty.
+
 HELP
 our $SHORT_HELP   = "Set tty.";
 
@@ -31,17 +32,26 @@ our $MIN_ABBREV = length('tt');
 sub run($$)
 {
     my ($self, $args) = @_;
-    print @$args, "\n";
+    my $proc = $self->{proc};
+    my $intf = $proc->{interfaces};
     if (scalar @$args == 2) {
-	my $intf = $self->{proc}{interfaces};
 	$master_tty = IO::Pty->new();
 	$slave_tty  = $master_tty->slave;
-	$self->{proc}->msg($slave_tty->ttyname());
+	$proc->msg($slave_tty->ttyname());
 	$self->{proc}->msg($master_tty->ttyname());
 	$intf->[-1]{output}{output} = $slave_tty;
 	$intf->[-1]{input}{input} = $slave_tty;
+    } elsif (scalar @$args == 4) {
+	my $in_name = $args->[2];
+	my $out_name = $args->[3];
+	if (CORE::open($intf->[-1]{output}{output}, ">", $out_name)) {
+	    CORE::open($intf->[-1]{input}{input}, "<", $in_name);
+	    # $intf->[-1]{input}{input} = $intf->[-1]{output}{output};
+	} else {
+	    $proc->errmsg("can't open $in_name");
+	}
     } else {
-        $self->{proc}->errmsg("wrong number of args - need none");
+        $proc->errmsg("wrong number of args - need 0 or 2");
     }
 }
 unless (caller) {
